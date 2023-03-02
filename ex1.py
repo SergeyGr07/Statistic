@@ -1,36 +1,41 @@
 import numpy as np
-from scipy import stats
+import matplotlib.pyplot as plt
 
+# 1. Генерация случайных массивов a и b
 N = 1000
+a = np.random.uniform(2, 5, N)
+b = np.random.normal(3.5, 0.5, N)
 
-# Генерация массива A с нормальным распределением
-A = np.random.normal(loc=0.0, scale=1.0, size=N)
-A = 2 + 1.5*A  # Масштабирование и смещение
+# 2. Вычисление матожиданий
+M_a = np.sum(a) / N
+M_b = np.sum(b) / N
+print(f"M(A) = {M_a}, M(B) = {M_b}")
 
-# Генерация массива B с равномерным распределением
-B = np.random.uniform(low=2, high=5, size=N)
+# 3. Определение моды и медианы
+mode_a = np.bincount(np.int_(a)).argmax()
+mode_b = np.bincount(np.int_(b)).argmax()
+median_a = np.median(a)
+median_b = np.median(b)
+print(f"Mode of A = {mode_a}, Mode of B = {mode_b}")
+print(f"Median of A = {median_a}, Median of B = {median_b}")
 
-# Вычисление матожидания для массива A
-MA = np.mean(A)
+# 4. Вычисление дисперсии и стандартного отклонения
+D_a = np.sum((a - M_a)**2) / N
+D_b = np.sum((b - M_b)**2) / N
+std_a = np.sqrt(D_a)
+std_b = np.sqrt(D_b)
+print(f"D(A) = {D_a}, D(B) = {D_b}")
+print(f"Std deviation of A = {std_a}, Std deviation of B = {std_b}")
 
-# Вычисление матожидания для массива B
-MB = np.mean(B)
+# 5. Построение гистограмм
+bin_width = 0.1
+bins_a = np.arange(2, 5 + bin_width, bin_width)
+bins_b = np.arange(np.min(b), np.max(b) + bin_width, bin_width)
 
-# Определение моды для массива A
-mode_A = stats.mode(A)
+plt.hist(a, bins=bins_a, alpha=0.5, label='A')
+plt.legend()
+plt.show()
+plt.hist(b, bins=bins_b, alpha=0.5, label='B')
+plt.legend()
+plt.show()
 
-# Определение медианы для массива A
-median_A = np.median(A)
-
-# Определение моды для массива B
-mode_B = stats.mode(B)
-
-# Определение медианы для массива B
-median_B = np.median(B)
-
-print("матожидания для массива A:", MA)
-print("матожидания для массива B:", MB)
-print("мода A:", mode_A)
-print("мода B:", mode_B)
-print("медиана A:", median_A)
-print("медиана B:", median_B)
